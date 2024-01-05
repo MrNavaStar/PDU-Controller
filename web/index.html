@@ -165,8 +165,7 @@
     })
     .then(response => response.json())
     .then(plugData => {
-      console.log(plugData)
-      for (let i = 0; i < 16; i++) setButtonState(i, plugData[i].state)
+      for (let i = 0; i < 16; i++) setButtonState(i + 1, plugData[i].state)
     })
 
     function toggleSocket(socketNumber, name) {
