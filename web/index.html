@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket Control</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
+    h1 {
+      color: #333333;
+    }
+
+    .container {
+      width: 80%;
+      height: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .chart-container {
+      width: 95%;
+      height: 400px;
+      padding-bottom: 50px;
+    }
+
+    .socket-container {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-gap: 25px;
+      justify-items: center;
+      align-items: center;
+      width: 1100px;
+    }
+
+    .socket {
+      width: 100px;
+      height: 100px;
+      background-color: #ff9999;
+      border-radius: 10px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .socket h3 {
+      color: #333333;
+      cursor: pointer;
+    }
+
+    .socket .status {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .socket.on {
+      background-color: #a4e5b5;
+    }
+
+    .socket.off {
+      background-color: #ff9999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Socket Control</h1>
+
+  <div class="container">
+    <div class="chart-container">
+      <canvas id="powerChart"></canvas>
+    </div>
+
+    <div class="socket-container">
+      {% for socket in sockets %}
+      <div class="socket" id="socket{{ socket.id }}" onclick="toggleSocket({{ socket.id }}, '{{ socket.name }}')">
+        <h3>{{ socket.name }}</h3>
+        <p class="status">Status: <span id="status{{ socket.id }}">Off</span></p>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+  <script>
+    // Sample data for the power usage
+    var socketData = [
+      { socket: 'Socket 1', powerUsage: 20 },
+      { socket: 'Socket 2', powerUsage: 10 },
+      { socket: 'Socket 3', powerUsage: 30 },
+      { socket: 'Socket 4', powerUsage: 15 }
+      // Add more data as needed
+    ];
+
+    // Generate random colors for the chart
+    var colors = socketData.map(function() {
+      return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    });
+
+    // Create the chart
+    var ctx = document.getElementById('powerChart').getContext('2d');
+    var powerChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: socketData.map(function(item) {
+          return item.socket;
+        }),
+        datasets: [{
+          label: 'Power Usage',
+          data: socketData.map(function(item) {
+            return item.powerUsage;
+          }),
+          backgroundColor: colors[0],
+          borderColor: colors[0],
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+
+    function toggleSocket(socketNumber, name) {
+      var socket = document.getElementById('socket' + socketNumber);
+      var status = document.getElementById('status' + socketNumber);
+
+      if (socket.classList.contains('on')) {
+        socket.classList.remove('on');
+        socket.classList.add('off');
+        status.textContent = 'Off';
+
+        fetch("/api/devices/plugs/" + socketNumber, {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ "name": name, "state": 0 })
+        })
+       .then(response => response.json())
+       .then(response => console.log(JSON.stringify(response)))
+
+      } else {
+        socket.classList.remove('off');
+        socket.classList.add('on');
+        status.textContent = 'On';
+
+        fetch("/api/devices/plugs/" + socketNumber, {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ "name": name, "state": 1 })
+        })
+       .then(response => response.json())
+       .then(response => console.log(JSON.stringify(response)))
+
+      }
+    }
+  </script>
+</body>
+</html>

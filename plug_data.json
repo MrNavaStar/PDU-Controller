@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "name": "plug_1",
+        "stateLastUpdated": "2023-07-01 22:05:57"
+    },
+    {
+        "id": 2,
+        "name": "plug_2",
+        "stateLastUpdated": "2023-07-01 22:05:58"
+    },
+    {
+        "id": 3,
+        "name": "plug_3",
+        "stateLastUpdated": "2023-07-01 22:05:58"
+    },
+    {
+        "id": 4,
+        "name": "plug_4",
+        "stateLastUpdated": "2023-07-01 22:05:59"
+    },
+    {
+        "id": 5,
+        "name": "plug_5",
+        "stateLastUpdated": "2023-07-01 22:05:59"
+    },
+    {
+        "id": 6,
+        "name": "plug_6",
+        "stateLastUpdated": "2023-07-01 22:06:00"
+    },
+    {
+        "id": 7,
+        "name": "plug_7",
+        "stateLastUpdated": "2023-07-01 22:06:00"
+    },
+    {
+        "id": 8,
+        "name": "plug_8",
+        "stateLastUpdated": "2023-07-01 22:06:01"
+    },
+    {
+        "id": 9,
+        "name": "plug_9",
+        "stateLastUpdated": "2023-07-01 22:06:22"
+    },
+    {
+        "id": 10,
+        "name": "plug_10",
+        "stateLastUpdated": "2023-07-01 22:06:22"
+    },
+    {
+        "id": 11,
+        "name": "plug_11",
+        "stateLastUpdated": "2023-07-01 22:06:23"
+    },
+    {
+        "id": 12,
+        "name": "plug_12",
+        "stateLastUpdated": "2023-07-01 22:06:23"
+    },
+    {
+        "id": 13,
+        "name": "plug_13",
+        "stateLastUpdated": "2023-07-01 22:06:24"
+    },
+    {
+        "id": 14,
+        "name": "plug_14",
+        "stateLastUpdated": "2023-07-01 22:06:25"
+    },
+    {
+        "id": 15,
+        "name": "plug_15",
+        "stateLastUpdated": "2023-07-01 22:06:02"
+    },
+    {
+        "id": 16,
+        "name": "plug_16",
+        "stateLastUpdated": "2023-07-01 22:06:01"
+    }
+]
