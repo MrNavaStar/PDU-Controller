@@ -1,4 +1,5 @@
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -10,6 +11,8 @@ from starlette.requests import Request
 from starlette.responses import HTMLResponse
 from pydantic import BaseModel
 from starlette.templating import Jinja2Templates
+from fastapi_utils.tasks import repeat_every
+
 
 from pdu import PDU
 from ups import UPS
@@ -73,6 +76,14 @@ def savePlugData():
         file.flush()
 
 
+@app.on_event("startup")
+@repeat_every(seconds=15 * 60)  # 15 min
+def logUPSData():
+    for ups in app.state.ups:
+        with open(ups.url + ".log", "a") as log:
+            log.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + ups.currentWatts())
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Missing args: Serial Port")
@@ -85,9 +96,7 @@ if __name__ == '__main__':
         for i in range(len(sys.argv)):
             if i < 2:
                 continue
-            test = UPS(sys.argv[i])
-            print(test.info())
-            app.state.ups.append(test)
+            app.state.ups.append(UPS(sys.argv[i]))
 
     if not Path("plug_data.json").exists():
         app.state.plug_data = createDefaultPlugData()
