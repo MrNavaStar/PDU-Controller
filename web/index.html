@@ -146,13 +146,13 @@
       const status = document.getElementById('status' + socketNumber);
 
       if (state === 1) {
-        socket.classList.remove('on');
-        socket.classList.add('off');
-        status.textContent = 'Off';
-      } else {
         socket.classList.remove('off');
         socket.classList.add('on');
         status.textContent = 'On';
+      } else {
+        socket.classList.remove('on');
+        socket.classList.add('off');
+        status.textContent = 'Off';
       }
     }
 
