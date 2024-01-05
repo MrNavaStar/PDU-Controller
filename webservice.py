@@ -78,12 +78,10 @@ if __name__ == '__main__':
         print("Missing args: Serial Port")
         sys.exit(1)
 
-        sys.flags
-
     app.state.pdu = PDU(sys.argv[1])
     app.state.ups = []
 
-    if len(sys.argv) < 2:
+    if len(sys.argv) > 2:
         for i in range(len(sys.argv)):
             if i < 2:
                 continue

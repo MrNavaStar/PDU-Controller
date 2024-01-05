@@ -15,8 +15,3 @@ class UPS:
                 continue
             info[data[0]] = data[1]
         return info
-
-
-if __name__ == '__main__':
-    ups = UPS("cyberpower@localhost")
-    print(ups.info())
