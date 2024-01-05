@@ -48,7 +48,7 @@ def setPlugData(plug_id: int, plug_data: PlugData):
         app.state.pdu.updateRelays()
 
     savePlugData()
-    return JSONResponse({"state": app.state.pdu.getRelayState()[plug_id - 1]})
+    return JSONResponse({"name": app.state.plug_data[plug_id - 1]["name"], "state": int(app.state.pdu.getRelayState()[plug_id - 1])})
 
 
 def createDefaultPlugData() -> list:
