@@ -78,6 +78,8 @@ if __name__ == '__main__':
         print("Missing args: Serial Port")
         sys.exit(1)
 
+        sys.flags
+
     app.state.pdu = PDU(sys.argv[1])
     app.state.ups = []
 
@@ -89,11 +91,10 @@ if __name__ == '__main__':
             print(test.info())
             app.state.ups.append(test)
 
-
     if not Path("plug_data.json").exists():
         app.state.plug_data = createDefaultPlugData()
     else:
         with open("plug_data.json", "r") as file:
             app.state.plug_data = json.loads(file.read())
 
-    uvicorn.run(app, host="0.0.0.0", port=80)
+    uvicorn.run(app, host="0.0.0.0", port=8080)
