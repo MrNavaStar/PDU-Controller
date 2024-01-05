@@ -48,7 +48,7 @@ def setPlugData(plug_id: int, plug_data: PlugData):
         app.state.pdu.updateRelays()
 
     savePlugData()
-    return JSONResponse({"status": "ok"})
+    return JSONResponse({"state": app.state.pdu.getRelayState()[plug_id - 1]})
 
 
 def createDefaultPlugData() -> list:
@@ -86,4 +86,4 @@ if __name__ == '__main__':
         with open("plug_data.json", "r") as file:
             app.state.plug_data = json.loads(file.read())
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, port=80)

@@ -141,15 +141,37 @@
       }
     });
 
-    function toggleSocket(socketNumber, name) {
-      var socket = document.getElementById('socket' + socketNumber);
-      var status = document.getElementById('status' + socketNumber);
+    function setButtonState(socketNumber, state) {
+      const socket = document.getElementById('socket' + socketNumber);
+      const status = document.getElementById('status' + socketNumber);
 
-      if (socket.classList.contains('on')) {
+      if (state) {
         socket.classList.remove('on');
         socket.classList.add('off');
         status.textContent = 'Off';
+      } else {
+        socket.classList.remove('off');
+        socket.classList.add('on');
+        status.textContent = 'On';
+      }
+    }
 
+    fetch("/api/devices/plugs/", {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      const plugData = response.json();
+      for (let i = 1; i < 17; i++) setButtonState(i, plugData[i].state)
+    })
+
+    function toggleSocket(socketNumber, name) {
+      const socket = document.getElementById('socket' + socketNumber);
+
+      if (socket.classList.contains('on')) {
         fetch("/api/devices/plugs/" + socketNumber, {
           method: 'POST',
           headers: {
@@ -158,14 +180,11 @@
           },
           body: JSON.stringify({ "name": name, "state": 0 })
         })
-       .then(response => response.json())
-       .then(response => console.log(JSON.stringify(response)))
-
+        .then(response => {
+          setButtonState(socketNumber, response.json()["state"])
+        })
+        
       } else {
-        socket.classList.remove('off');
-        socket.classList.add('on');
-        status.textContent = 'On';
-
         fetch("/api/devices/plugs/" + socketNumber, {
           method: 'POST',
           headers: {
@@ -174,9 +193,9 @@
           },
           body: JSON.stringify({ "name": name, "state": 1 })
         })
-       .then(response => response.json())
-       .then(response => console.log(JSON.stringify(response)))
-
+        .then(response => {
+          setButtonState(socketNumber, response.json()["state"])
+        })
       }
     }
   </script>
