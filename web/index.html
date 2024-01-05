@@ -94,8 +94,18 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/magic-grid/dist/magic-grid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
   <script>
+    let magicGrid = new MagicGrid({
+        container: '.socket-container',
+        animate: true,
+        static: true,
+        useMin: true
+    });
+
+    magicGrid.listen();
+    
     // Sample data for the power usage
     var socketData = [
       { socket: 'Socket 1', powerUsage: 20 },
