@@ -9,7 +9,7 @@ class UPS:
     def info(self):
         info = {}
         result = subprocess.run(['upsc', self.url], stdout=subprocess.PIPE)
-        for line in result.stdout.decode('utf-8').replace("Init SSL without certificate database", "").split("\n"):
+        for line in result.stdout.decode('utf-8').split("\n"):
             data = line.split(": ")
             if len(data) < 2:
                 continue

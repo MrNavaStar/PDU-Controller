@@ -72,7 +72,7 @@ class PDU:
         self.relayState = 0
 
         for bit, i in zip(tempRelayState, range(1, 17)):
-            if int(bit):
+            if int(bit) == 1:
                 self.modifyRelayState(i, int(bit), False)
                 self.updateRelays()
                 time.sleep(3)
