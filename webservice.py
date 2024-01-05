@@ -8,11 +8,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from starlette.requests import Request
 from starlette.responses import HTMLResponse
-from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from starlette.templating import Jinja2Templates
 
 from pdu import PDU
+from ups import UPS
 
 app = FastAPI()
 templates = Jinja2Templates(directory="web")
@@ -79,6 +79,16 @@ if __name__ == '__main__':
         sys.exit(1)
 
     app.state.pdu = PDU(sys.argv[1])
+    app.state.ups = []
+
+    if len(sys.argv) < 2:
+        for i in range(len(sys.argv)):
+            if i < 2:
+                continue
+            test = UPS(sys.argv[i])
+            print(test.info())
+            app.state.ups.append(test)
+
 
     if not Path("plug_data.json").exists():
         app.state.plug_data = createDefaultPlugData()
